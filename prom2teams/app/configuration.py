@@ -22,7 +22,7 @@ def _config_command_line():
     parser.add_argument('-l', '--logfilepath', help='log file path', required=False)
     parser.add_argument('-v', '--loglevel', help='log level', required=False)
     parser.add_argument('-t', '--templatepath', help='Jinja2 template file path', required=False)
-    parser.add_argument('-r', '--templaterenderlist', help='Jinja2 template render list mode', action='store_true')
+    parser.add_argument('-r', '--templaterenderlist', help='Jinja2 template render list mode', action='store_true', required=False)
     parser.add_argument('-s', '--labelsexcluded', help='prometheus custom labels to be ignored', required=False)
     parser.add_argument('-a', '--annotationsexcluded', help='prometheus custom annotations to be ignored', required=False)
     parser.add_argument('-m', '--enablemetrics', action='store_true', help='enable Prom2teams Prometheus metrics', required=False)
@@ -122,7 +122,7 @@ def config_app(application):
             application.config['LOG_FILE_PATH'] = command_line_args.logfilepath
         if command_line_args.templatepath:
             application.config['TEMPLATE_PATH'] = command_line_args.templatepath
-        if command_line_args.templaterenderlist:
+        if command_line_args.templaterenderlist or os.environ.get('PROM2TEAMS_TEMPLATE_RENDER_LIST', False):
             application.config['TEMPLATE_RENDER_LIST'] = command_line_args.templaterenderlist
         if command_line_args.groupalertsby:
             application.config['GROUP_ALERTS_BY'] = command_line_args.groupalertsby
