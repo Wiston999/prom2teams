@@ -24,6 +24,7 @@ API_V2_URL_PREFIX = '/v2'
 
 # Template
 TEMPLATE_PATH = None
+TEMPLATE_RENDER_LIST = False
 
 # Labels
 LABELS_EXCLUDED = ()

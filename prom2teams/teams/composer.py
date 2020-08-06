@@ -37,7 +37,10 @@ class TemplateComposer(metaclass=_Singleton):
         environment = Environment(loader=loader, trim_blocks=True)
         self.template = environment.get_template(template_name)
 
-    def compose_all(self, alarms_json):
-        rendered_templates = [self.template.render(status=json_alarm['status'], msg_text=json_alarm)
+    def compose_all(self, alarms_json, render_list):
+        if render_list:
+            rendered_templates = [self.template.render(alarms=alarms_json)]
+        else:
+            rendered_templates = [self.template.render(status=json_alarm['status'], msg_text=json_alarm)
                               for json_alarm in alarms_json]
         return rendered_templates

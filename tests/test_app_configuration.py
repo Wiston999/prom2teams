@@ -31,6 +31,7 @@ class TestServer(unittest.TestCase):
 
         self.assertEqual(config.get('HTTP Server', 'Host'), '1.1.1.1')
         self.assertEqual(config.get('HTTP Server', 'Port'), '9089')
+        self.assertEqual(config.get('Template', 'RenderList'), 'true')
         self.assertTrue(config.get('Microsoft Teams', 'Connector'))
 
     def test_connectors_configured(self):
@@ -51,6 +52,7 @@ class TestServer(unittest.TestCase):
         self.assertEqual(config.get('Log', 'Level'), 'TEST')
         self.assertEqual(config.get('Log', 'Path'), '/var/log/prom2teams/test.log')
         self.assertEqual(config.get('Template', 'Path'), 'jinja2/template/path')
+        self.assertEqual(config.get('Template', 'RenderList'), 'false')
         self.assertEqual(config.get('Group Alerts', 'Field'), 'name')
 
 if __name__ == '__main__':

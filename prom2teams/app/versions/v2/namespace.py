@@ -16,10 +16,8 @@ class AlertReceiver(Resource):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         self.schema = MessageSchema(exclude_fields=app.config['LABELS_EXCLUDED'], exclude_annotations=app.config['ANNOTATIONS_EXCLUDED'], unknown=EXCLUDE)
-        if app.config['TEMPLATE_PATH']:
-            self.sender = AlarmSender(app.config['TEMPLATE_PATH'], app.config['GROUP_ALERTS_BY'])
-        else:
-            self.sender = AlarmSender(group_alerts_by=app.config['GROUP_ALERTS_BY'])
+
+        self.sender = AlarmSender(app.config['TEMPLATE_PATH'], app.config['GROUP_ALERTS_BY'], app.config['TEMPLATE_RENDER_LIST'])
 
     @api_v2.expect(message)
     def post(self, connector):

@@ -22,6 +22,7 @@ def _config_command_line():
     parser.add_argument('-l', '--logfilepath', help='log file path', required=False)
     parser.add_argument('-v', '--loglevel', help='log level', required=False)
     parser.add_argument('-t', '--templatepath', help='Jinja2 template file path', required=False)
+    parser.add_argument('-r', '--templaterenderlist', help='Jinja2 template render list mode', action='store_true')
     parser.add_argument('-s', '--labelsexcluded', help='prometheus custom labels to be ignored', required=False)
     parser.add_argument('-a', '--annotationsexcluded', help='prometheus custom annotations to be ignored', required=False)
     parser.add_argument('-m', '--enablemetrics', action='store_true', help='enable Prom2teams Prometheus metrics', required=False)
@@ -33,6 +34,8 @@ def _update_application_configuration(application, configuration):
         application.config['MICROSOFT_TEAMS'] = configuration['Microsoft Teams']
     if 'Template' in configuration and 'Path' in configuration['Template']:
         application.config['TEMPLATE_PATH'] = configuration['Template']['Path']
+    if 'Template' in configuration and 'RenderList' in configuration['Template']:
+        application.config['TEMPLATE_RENDER_LIST'] = configuration['Template']['RenderList'] == 'true'
     if 'Log' in configuration and 'Level' in configuration['Log']:
         application.config['LOG_LEVEL'] = configuration['Log']['Level']
     if 'Log' in configuration and 'Path' in configuration['Log']:
@@ -119,6 +122,8 @@ def config_app(application):
             application.config['LOG_FILE_PATH'] = command_line_args.logfilepath
         if command_line_args.templatepath:
             application.config['TEMPLATE_PATH'] = command_line_args.templatepath
+        if command_line_args.templaterenderlist:
+            application.config['TEMPLATE_RENDER_LIST'] = command_line_args.templaterenderlist
         if command_line_args.groupalertsby:
             application.config['GROUP_ALERTS_BY'] = command_line_args.groupalertsby
         if command_line_args.enablemetrics or os.environ.get('PROM2TEAMS_PROMETHEUS_METRICS', False):
